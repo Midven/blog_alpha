@@ -6,15 +6,25 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "customized_bootstrap", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
+    
   </head>
 
-  <body>
+  <body class="d-flex flex-column">
     
-    <%= render 'layouts/messages' %>
-    <!--J'importe le partial qui contient mes messages flash-->
+    <%= render 'layouts/navigation' %>
     
-    <%= yield %>
+    <div id="page-content">
+      <%= render 'layouts/messages' %>
+      <!--J'importe le partial qui contient mes messages flash-->
+      <%= yield %>
+    </div>
+    
+    <%= render 'layouts/footer' %>
+    
   </body>
 </html>
