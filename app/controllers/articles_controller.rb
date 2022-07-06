@@ -42,6 +42,7 @@ class ArticlesController < ApplicationController
       # Cela signifie que je reqcuière la clé :article dans les paramètres et j'utilise les éléments :title et :description
       # pour créer une instance de l'objet article
       # render plain: @article.inspect # je vérifie si j'ai un objet article
+      @article.user = User.first
       if @article.save
          flash[:notice] = "Article was created successfully."
          # redirect_to article_path(@article)
