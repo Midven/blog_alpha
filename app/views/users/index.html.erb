@@ -19,7 +19,14 @@
                 
                 <p>
                     <td><%= link_to 'Show profile', user_path(user), class: "btn btn-outline-success" %></td>
-                    <td><%= link_to 'Edit profile', edit_user_path(user), class: "btn btn-outline-info" %></td>
+                    <% if logged_in? %>
+                        <% if user == current_user %>
+                            <td><%= link_to 'Edit profile', edit_user_path(user), class: "btn btn-outline-info" %></td>
+                        <% end %>
+                        <% if current_user.admin? %>
+                            <%= button_to "Delete this profile", user_path(user), class: "btn btn-outline-danger mt-3", method: :delete, onclick: "return confirm('Are you sure?')" %>
+                        <% end %>
+                    <% end %>
                 </p>
               </div>
               <div class="card-footer text-muted">

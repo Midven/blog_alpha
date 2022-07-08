@@ -1,7 +1,8 @@
 class User < ApplicationRecord
     before_save { self.email = email.downcase }
     # avant de sauvegarder un utilisateur, il me met tout les caractères du mail en minuscule
-    has_many :articles
+    has_many :articles, dependent: :destroy
+    # si un utilisateur est supprimé alors toutes les entités dépendantes ( comme un article ) sont supprimées aussi
    
     validates :username, presence:true, 
                         uniqueness: { case_sensitive: false }, 

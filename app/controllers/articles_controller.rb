@@ -2,6 +2,9 @@ class ArticlesController < ApplicationController
    before_action :set_article, only: [:show, :edit, :update, :destroy]
    # Pour les méthode citée, avant qu'il ne se passe quoi que ce soit, j'utilise la méthode set_article
    # afin d'avoir un article, cela permet d'éviter de déclarer la méthode dans chaque méthode
+   before_action :require_user, except: [:show, :index]
+   # a l'inverse du only, ici j'applique la fonction  pour tout excepté pour shox et index
+   before_action :require_same_user, only: [:edit, :update, :destroy]
    
    def show
    end
@@ -42,7 +45,7 @@ class ArticlesController < ApplicationController
       # Cela signifie que je reqcuière la clé :article dans les paramètres et j'utilise les éléments :title et :description
       # pour créer une instance de l'objet article
       # render plain: @article.inspect # je vérifie si j'ai un objet article
-      @article.user = User.first
+      @article.user = current_user
       if @article.save
          flash[:notice] = "Article was created successfully."
          # redirect_to article_path(@article)
@@ -66,6 +69,13 @@ class ArticlesController < ApplicationController
    
    def article_params
       params.require(:article).permit(:title, :description)
+   end
+   
+   def require_same_user
+      if current_user != @article.user && !current_user.admin?
+         flash[:alert] = "You can only edit or delete your own article"
+         redirect_to @article
+      end
    end
    
 end
