@@ -10,4 +10,10 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  
+  def sign_in_as(user)
+    post login_path, params: { session: {email: user.email, password: "password"} }
+    # je dois mettre le même password que dans mon controller de test pour contourner le hachage du password
+  end
+  
 end

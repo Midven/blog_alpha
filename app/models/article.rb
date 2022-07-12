@@ -1,5 +1,8 @@
 class Article < ApplicationRecord
     belongs_to :user
+    has_many :article_categories
+    has_many :categories, through: :article_categories
+    # un article a plusieurs catégories a travers la table article_categories
 
     validates :title, presence:true, 
                         length: {minimum: 6, maximum: 100}
